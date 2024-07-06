@@ -1,0 +1,17 @@
+pip install stomp.py
+
+ActiveMQConnectionFactory jmsConnectionFactory = new ActiveMQConnectionFactory("tcp://192.168.99.103:61616");
+		try {
+			Connection con = jmsConnectionFactory.createConnection();
+			con.start();
+			Session session = con.createSession(false, Session.AUTO_ACKNOWLEDGE);
+			Queue pp = session.createQueue("ForStorm");
+			MessageConsumer createConsumer = session.createConsumer(pp);
+			TextMessage receive = (TextMessage) createConsumer.receive();
+			String payload = receive.getText();
+			// System.out.println(payload);
+
+		} catch (JMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}

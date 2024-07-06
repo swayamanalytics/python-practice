@@ -1,0 +1,1101 @@
++++++++++++++++NumPy+++++++++
+Array
++++++++++
+NumPy arrays are more efficient than Python lists when it comes to numerical operations.
+NumPy code requires less explicit loops than the equivalent Python code.
+
+
+Creating Array
+=============
+import numpy as np
+#Creating array from list
+narra=np.array([2,3])
+narra
+narray2=np.array([[2,3],[4,6]])
+narray2
+
+#Creating array with data type
+a=np.array([3555,444444],np.dtype('int'))
+
+#Creating array from range
+bb=np.arange(1,10)
+bb
+
+
+#Creating Evenly space array (start,end,number of element)  It include both start and end point.The difference betwen two successive elements is same
+#Used to generate sample space for testing
+bb=np.linspace(1,5,7)
+array([1.        , 1.66666667, 2.33333333, 3.        , 3.66666667,
+       4.33333333, 5.        ])
+	   
+	   
+#creating array of ones
+bb=np.ones((1,1))
+
+#creating array of zero
+bb=np.zeros((1,2))
+
+#Identity matrix
+bb=np.eye(4)
+
+#Diagonal matrix(parameters are diagonal element)
+bb=np.diag((2,3,5))
+array([[2, 0, 0],
+       [0, 3, 0],
+       [0, 0, 5]])
+
+#Random element of array
+1) np.random.rand()
+Get a random number of 17-digit precision
+
+
+2) np.random.seed(5)
+   ar1=np.random.rand(3)
+   ar1=np.random.randn(3)
+
+   
+3)np.random.seed(10)
+  ar=np.random.randint(0,100, 50)
+  ar=np.random.randint(0,100, size=(4,5))
+
+
+#Uninitialized array
+ar13=np.empty((3,2))
+array([[4.24399158e-314, 1.48539705e-313],
+       [4.24399158e-314, 1.48539705e-313],
+       [4.24399158e-314, 1.48539705e-313]])
+	   
+#Repeating same array several time, it takes a numpy array as argument
+np.tile(np.array([[1,2],[6,7]]),(3,2))
+array([[1, 2, 1, 2],
+       [6, 7, 6, 7],
+       [1, 2, 1, 2],
+       [6, 7, 6, 7],
+       [1, 2, 1, 2],
+       [6, 7, 6, 7]])	   
+	   
+Getting property of a Array
+===========================
+#Get data type
+aa=np.array([3,4,5.])
+aa.dtype
+ o dtype('float64')
+
+aa=np.array([3,4,5])
+aa.dtype
+ o dtype('int32')
+
+The data type of array a is int64/int32 depeding upon the python bit
+
+The default dtype in NumPy is float. In the case of strings, dtype is the length of
+the longest string in the array:
+
+sar=np.array(['Goodbye','Welcome','Tata','Goodnight']); sar.
+dtype
+ o dtype('S9')
+ 
+You cannot create variable-length strings in NumPy, since NumPy needs to know
+how much space to allocate for the string. dtypes can also be Boolean values,
+complex numbers, and so on:
+ bar=np.array([True, False, True]); bar.dtype
+ o dtype('bool')
+ 
+#Get size , dimension
+
+**To number of element 
+
+var = np.array([[1,2,3,4,5,6], [1,2,3,4,5,6]])
+var.size
+ o 12
+ 
+** Shape  
+b.shape 
+
+The shape attribute of the array is a tuple, in this case a tuple of 1 element, which contains the length
+in each dimension.It is calculated from outer to inner.
+
+x = np.array([1, 2, 3, 4])
+x.shape
+(4,)
+
+
+
+aa=np.array([np.array([1,1,4]),np.array([4,4,4])])
+print aa.shape
+ o (2L, 3L) The first one is for outer , second  one for inner list size
+
+** In multi dimesiona array if number of elemenet in a dimension is not same, it will be created as list. not as a nd array.Element type will be 
+    object rather than int
+
+**Get n-dimension
+var = np.array([[1,2,3,4,5,6], [1,2,3,4,5,6]])
+var.ndim
+
+ o 2
+
+**Item size(size in bytes) of ech element
+a.dtype.itemsize
+a=np.arange(20,dtype='int32')
+print a.dtype.itemsize
+4
+
+
+** What is n-dimension array ?
+Collection of n-1 array
+
+Indexing and slicing a Array
+===========================
+** Selecting element (same as list)
+a[0]
+a[3:7]  or a[3][7]
+a[:7:2]
+
+Return type is a numpy array
+
+** Selecting element in multi dimension array
+b[:,0,0]
+Using steps to slice
+b[0,1,::2]
+
+b[0, :, :]  => b[0,...]
+b[:,:,1]    => b[...,1]
+
+If we want to select rooms on the ground floor, last column reversed, then type the
+following code snippet:
+b[0,::-1, -1]
+
+
+
+** Creating a data type
+bb=np.dtype('float')
+
+** Creating object type data type
+t = dtype([('name', str_, 40), ('numitems', int32), ('price',float32)])
+(nameof the variable,datatype,maxlength)
+
+
+Multiply/add/substract/devide on each element
+b = a + 2 
+b = a ** 2
+
+
+** Reshape a array to different dimension
+reshape
+shape
+resize
+
+b = np.arange(24).reshape(2,3,4)  == Length sould not be change i.e 24 - 2*3*4
+
+b = np.arange(24)
+c=b.reshape(4,2,3)
+print b
+c[0]=55
+print b
+
+[ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23]
+[55 55 55 55 55 55  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23]
+
+
+Shaping
+====================
+
+shape changes the array in place
+b = np.arange(12)
+b.shape=(2,6)
+b
+
+
+The shae and resize() method works just like the reshape() function, but
+modifies the array it operates on
+b.resize((2,12))
+b
+[[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+[12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]]
+
+
+
+h-SPLIT AND V-SPLIT  H=> ||   V-> =
+a=np.arange(24).reshape(4,6)
+np.hsplit(a,3)
+np.vsplit(a,2)
+
+np.hsplit(a,[2,3])  split 0-2 , 2-3 , 3-end
+
+**Flatten a multi dimension array to single
+
+b.ravel()
+b.flatten()
+
+b = np.arange(12)
+c=b.reshape(2,6)
+dd=c.ravel()
+print c
+dd[0]=33
+print c
+
+[[ 0  1  2  3  4  5]
+ [ 6  7  8  9 10 11]]
+[[33  1  2  3  4  5]
+ [ 6  7  8  9 10 11]]
+
+b = np.arange(12)
+c=b.reshape(2,6)
+dd=c.flatten()
+print c
+dd[0]=33
+print c
+
+[[ 0  1  2  3  4  5]
+ [ 6  7  8  9 10 11]]
+[[ 0  1  2  3  4  5]
+ [ 6  7  8  9 10 11]]
+ 
+ 
+flatten() does the same as ravel(),but flatten() always allocates new memory whereas ravel() might return a
+view of the array. A view is a way to share an array, but you need to be careful with
+views because modifying the view affects the underlying array, and therefore this
+impacts other views. An array copy is safer; however, it uses more memory
+ 
+ 
+**Transpose
+a = np.arange(9).reshape(3,3)
+b = a*2
+print b
+print b.transpose()
+
+
+[[ 0  2  4]
+ [ 6  8 10]
+ [12 14 16]]
+[[ 0  6 12]
+ [ 2  8 14]
+ [ 4 10 16]]
+
+**Stacking
+
+a = np.arange(9).reshape(3,3)
+b = a*2
+print a
+print b
+print np.hstack((a,b)) or concatenate((a, b), axis=1)
+
+[[0 1 2]
+ [3 4 5]
+ [6 7 8]]
+[[ 0  2  4]
+ [ 6  8 10]
+ [12 14 16]]
+[[ 0  1  2  0  2  4]
+ [ 3  4  5  6  8 10]
+ [ 6  7  8 12 14 16]]
+
+
+print np.vstack((a,b)) or concatenate((a, b), axis=0)
+[[0 1 2]
+ [3 4 5]
+ [6 7 8]]
+[[ 0  2  4]
+ [ 6  8 10]
+ [12 14 16]]
+[[ 0  1  2]
+ [ 3  4  5]
+ [ 6  7  8]
+ [ 0  2  4]
+ [ 6  8 10]
+ [12 14 16]]
+ 
+Basic operation
+===========================
+** Math operation
+ar=np.arange(0,7)
+ar+5  #Elementwise,Same for multiplication/sub/division
+
+
+ar2=np.arange(1,11)
+
+ar-ar2
+Comparisons and logical operations are also element-wise:
+ar < ar2 # array([ True, True, False, False], dtype=bool)
+
+l1 = np.array([True,False,True,False])
+l2 = np.array([False,False,True, False])
+np.logical_and(l1,l2)
+array([False, False, True, False], dtype=bool)
+
+Note that for element-wise operations on two NumPy arrays, the two arrays must
+have the same shape
+
+
+**Matrix multiplication
+  ar.dot(ar2)
+  
+  np.matmul(a,b)
+
+** Transapose
+ar=np.array([[1,2,3],[4,5,6]])
+ar.T # or np.transpose(ar)
+
+** Array wise comparision
+ar=np.arange(0,6)
+ar2=np.array([0,1,2,3,4,5])
+
+np.array_equal(ar, ar2) # or np.all(ar==ar2)
+
+** Reduction operation
+
+ar=np.arange(1,5)
+ar.prod()
+ar.sum()
+ar.mean()
+np.median(ar)
+
+Reduction on a specific access
+ar=np.array([np.arange(1,6),np.arange(1,6)])
+ o array([[1, 2, 3, 4, 5],[1, 2, 3, 4, 5]])
+
+np.prod(ar,axis=0)
+ o array([ 1, 4, 9, 16, 25])
+ 
+np.prod(ar,axis=1)
+ o array([120, 120])
+ 
+
+***Statistical operators
+ar.mean()
+ar.std()
+ar.var(axis=0) # across rows
+ar.cumsum()
+
+***Logical operators
+np.all(): This is used for element-wise and all of the elements
+np.any(): This is used for element-wise or all of the elements
+
+np.random.seed(100)
+ar=np.random.randint(1,10, size=(4,4));ar
+  o	array([[9, 9, 4, 8],
+	[8, 1, 5, 3],
+	[6, 3, 3, 3],
+	[2, 1, 9, 5]])
+np.any((ar%7)==0)
+  o False
+  
+np.all(ar<11)
+  o True
+  
+*** Broadcasting ==================>>> pending
+
+
+*** Array sorting
+ar=np.array([[3,2],[10,-1]])
+ar.sort(axis=1) # y - axis
+  o array([[ 2, 3],[-1, 10]])
+  
+ar.sort(axis=0) # x -axis
+  o array([[ 3, -1],[10, 2]])
+
+ 
+ 
+ ** Array masking (Used for replacing empty value with default)
+ 
+ ar=np.array(['Hungary','Nigeria','Guatemala','','Poland','','Japan']);
+ar[ar=='']='USA'; ar
+ O array(['Hungary', 'Nigeria', 'Guatemala','USA', 'Poland', 'USA', 'Japan'], dtype='|S9')
+
+ 
+Get subset of a n-dim array
+array([ 0, 11, 22, 33, 44, 55, 66, 77, 88, 99])
+ar[[1,3,4,2,7]]
+array([11, 33, 44, 22, 77])
+
+
+This assignment is also possible with array indexing, as follows
+ar[[1,3]]=50;
+
+** Copying array
+
+ar1=np.arange(12)
+ar2=ar1[::2]
+
+here if you change any value it will also reflect in other
+ar2[1]=-1
+
+
+Instead use np.copy
+
+ar=np.arange(8)
+arc=ar[:3].copy()
+
+Deep copy 
+=======
+a=[3,4,5]
+b=a.copy()
+
+
+                          ++++++++++++++++     P A N D A S ++++++++++++++++++
+
+Two basic data structure
+1) Series
+2) DataFrame
+
+
+myexp=pd.Series([40,35,70,150,200,25])
+myexp
+
+myexp[2] #Retrive data by index
+myexp.index=['day1','day2','day3','day4','day5','day6']
+myexp['day2'] #Retrive data by Label
+
+myexp['day2':'day5'] #It includes both start and end
+myexp[['day2','day5']] #Includes only 2 and 5 day
+myexp[1:4]           # It doesn’t include end 
+
+## Scalar filtering - retrive by condition
+myexp[myexp > 20]
+myexp[(myexp > 20) & (myexp < 100)]
+
+++++++++ Reading from File +++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++
+
+Reading from CSV 
+++++++++++++++++
+import pandas as pd
+wine_df=pd.read_csv("C:\Users\Sourav\Documents\python\Data\winequality-red.csv",delimiter=";")
+
+If delimiter is not mentioned it will consider "," as default delimiter
+
+skip the header
+olympics_df = pd.read_csv('Datasets/olympics.csv', header=1)
+
+Reading with data type
+data = pd.read_csv(‘movie_metadata.csv’, dtype={‘duration’: int})
+
+We can pass a na_values option to pd.read_csv to consider it as NaN
+na_values = ['NO CLUE', 'N/A', '0']
+df = pd.read_csv("C:\Users\Sourav\Documents\python\Data\BL-Flickr-Images-Book.csv",na_values=na_values)
+
+The argument  index_col=0 simply means we'll treat the first column of the dataset as the ID column.
+df = pd.read_csv('Pokemon.csv', index_col=0)
+
+
+Get the type of all column
++++++++++++++++++++++++++
+
+wine_df.dtypes
+
+Notes that character/string columns appear as ‘object’ datatypes.
+
+
+wine_df.get_dtype_counts() #How many columns for each data type
+
+
+wine_df.columns will return only columns names as a list
+
+Adding header to a dataframe
+df.columns = ['Names','Grades']
+
+Describe
++++++++++++
+users.describe()
+Notice: By default, only the statistics of numeric columns are returned.
+Note that if describe is called on the entire DataFrame, statistics only for the columns with numeric datatypes are returned, 
+and in DataFrame format.
+
+
+users.describe(include = "all") #All the columns are returned.
+
+Summarize only the chlorides column 
+wine_df['chlorides'].describe()
+
+
+For numeric columns, describe() returns basic statistics: 
+                    the value count, mean, standard deviation, minimum, maximum, and 25th, 50th, and 
+					75th quantiles for the data in a column.
+For string columns, describe() returns: 
+                    the value count, the number of unique entries, the most frequently occurring value (‘top’), 
+					and the number of times the top value occurs (‘freq’)
+
+					
+
+
+
+
+
+
+Null checking
+++++++++++++++++++++++
+cities.notnull()
+cities.isnull()
+
+
+
+
+							
+Selecting
++++++++++++++++++++++++++
+
+**Selecting Columns**
+
+There are three main methods of selecting columns in pandas:
+
+1) using a dot notation, e.g. data.column_name
+    wine_df.alcohol
+	This will not work if column name has a space
+	
+2) using square braces and the name of the column as a string, 
+   e.g. data['column_name']
+   wine_df["free sulfur dioxide"]
+   
+3) using numeric indexing and the iloc selector data.iloc[:, <column_number>]
+   wine_df.iloc[:,3]  ==> All rows third column
+   
+When a column is selected using any of these methodologies, a pandas.Series is the resulting datatype. 
+A pandas series is a one-dimensional set of data
+
+
+1) square-brace selection with a list of column names, 
+
+	wine_df[['fixed acidity','chlorides']]
+
+2) using numeric indexing with the iloc selector and a list of column numbers, 
+    e.g. data.iloc[:, [0,1,20,22]]
+	
+	
+**Selecting Rows**
+
+Getting head and tail of dataframe
+
+wine_df.head()     #First five lines
+wine_df.head(100)  #First 100 lines
+
+
+wine_df.tail()     #last five lines
+wine_df.tail(100)     #last 100 lines
+
+
+
+## loc is for lable and iloc for index
+
+position based  selection using the iloc selector, 
+
+
+syntax :- .iloc[<row selection>,<column selection>]
+    Interger list rows:[0,1,2] Interger list column:[0,1,2]
+	        Slice rows: [4:7]          Slice column: [4:7]
+		 Single values: 1      	    Single values: 1
+
+# Single selections using iloc and DataFrame
+# Rows:
+data.iloc[0] # first row of data frame 
+data.iloc[1] # second row of data frame
+data.iloc[-1] # last row of data frame 
+# Columns:
+data.iloc[:,0] # first column of data frame 
+data.iloc[:,1] # second column of data frame
+data.iloc[:,-1] # last column of data frame 
+
+Multiple columns and rows can be selected together using the .iloc indexer
+# Multiple row and column selections using iloc and DataFrame
+data.iloc[0:5] # first five rows of dataframe
+data.iloc[:, 0:2] # first two columns of data frame with all rows
+data.iloc[[0,3,6,24], [0,5,6]] # 1st, 4th, 7th, 25th row + 1st 6th 7th columns.
+data.iloc[0:5, 5:8] # first 5 rows and 5th, 6th, 7th columns of data frame (county -> phone1).
+
+There’s two gotchas to remember when using iloc in this manner:
+Note that .iloc returns a Pandas Series when one row is selected or if any column in full is selected. , 
+and a Pandas DataFrame when multiple rows are selected, 
+To counter this, pass a single-valued list if you require DataFrame output.
+
+
+
+
+label-based row selection using the loc selector (this is only applicably if you have set an “index” on your dataframe. 
+e.g. data.loc[44, :]
+syntax :- .loc[<row selection>,<column selection>]
+    Index/label value:'john'             Named column:'firstname'
+	    List of label:['john','sarah']   List of column names: ['firstname','age']
+		 Single values: 1      	         Slice of columns: 'firstname':'age'
+
+
+A Pandas Index extends the functionality of NumPy arrays to allow for more versatile slicing and labeling. 
+In many cases, it is helpful to use a uniquely valued identifying field of the data as its index.
+By default it is number based index, you can reindex with a perticular coumn values
+
+pop_df=pd.read_csv("C:\Users\Sourav\Documents\python\Data\us-500.csv")
+pop_df.set_index("email", inplace=True)
+pop_df.loc[['meaghan@hotmail.com']]		 
+
+While setting the index make sure it is uniq in dataframe 
+df['Identifier'].is_unique
+
+
+
+logical-based row selection using evaluated statements, 
+
+e.g.
+pop_df.loc[pop_df['email'] == 'meaghan@hotmail.com']  # This will return the row with email match , dtype is dataframe
+
+pop_df.loc[pop_df['email'] == 'meaghan@hotmail.com',"first_name"] # Return only firstname, dtype is Series
+
+pop_df.loc[pop_df['email'] == 'meaghan@hotmail.com',["first_name"]] #dtype is dataframe
+
+pop_df.loc[pop_df['email'] == 'meaghan@hotmail.com',["first_name","last_name"]]
+
+data.loc[data.mpg > 25 , ['hp','cyl']]
+
+# Select rows with first name Antonio, # and all columns between 'city' and 'email'
+pop_df.loc[pop_df['first_name'] == 'Antonio', 'city':'email']
+
+# Select rows where the email column ends with 'hotmail.com', include all columns
+data.loc[data['email'].str.endswith("hotmail.com")]   
+
+# Select rows with last_name equal to some values, all columns
+data.loc[data['first_name'].isin(['France', 'Tyisha', 'Eric'])]   
+
+# Select rows with first name Antonio AND hotmail email addresses
+data.loc[data['email'].str.endswith("gmail.com") & (data['first_name'] == 'Antonio')] 
+ 
+# select rows with id column between 100 and 200, and just return 'postal' and 'web' columns
+data.loc[(data['id'] > 100) & (data['id'] <= 200), ['postal', 'web']] 
+
+# A lambda function that yields True/False values can also be used.
+# Select rows where the company name has 4 words in it.
+data.loc[data['company_name'].apply(lambda x: len(x.split(' ')) == 4)] 
+
+# Selections can be achieved outside of the main .loc for clarity:
+# Form a separate variable with your selections:
+idx = data['company_name'].apply(lambda x: len(x.split(' ')) == 4)
+# Select only the True values in 'idx' and only the 3 columns specified:
+data.loc[idx, ['email', 'first_name', 'company']]
+#With range
+data.loc[2:6,'mpg':'hp']
+
+#Regular extression
+pop_df.loc[pop_df['email'].str.contains("^lp")]
+
++++++Change case
+
+#Convert to upper case
+data[‘movie_title’].str.upper()
+
+#To get rid of trailing whitespace:
+data[‘movie_title’].str.strip()
+
+#To list number of value per item
+data['City'].str.upper().value_counts()
+
+#Extracting required data only
+df = pd.read_csv("C:\Users\Sourav\Documents\python\Data\BL-Flickr-Images-Book.csv")
+df['Date of Publication']=df['Date of Publication'].str.extract(r'^(\d{4})')
+
+df['Date of Publication']=pd.to_numeric(df['Date of Publication'].str.extract(r'^(\d{4})'))
+
+#Updating using .loc
+# Change the first name of all rows with an ID greater than 2000 to "John"
+data.loc[data['id'] > 2000, "first_name"] = "John"
+
+# Change the first name of all rows with an ID greater than 2000 to "John"
+data.loc[data['id'] > 2000, "first_name"] = "John"
+
+
+wine_df[50:100]    #From 50 to 100 line
+
+wine_df.ix[[100]]
+wine_df.ix[100:200]
+
+same use of loc and iloc :- https://www.novixys.com/blog/pandas-tutorial-select-dataframe/
+                            https://www.shanelynn.ie/select-pandas-dataframe-rows-and-columns-using-iloc-loc-and-ix/
+							
+			
+** Deleting rows and columns (drop) **
+
+ph=pop_df.head(5)
+ph.drop("phone2",axis=1)
+
+# In place drop
+ph.drop("phone2",axis=1 inplace=True)
+
+# Delete multiple columns from the dataframe
+ph = ph.drop(["phone2", "phone1"], axis=1)
+
+Rows can also be removed by usng axis=0
+ph = ph.drop(0,axis=0)
+
+Drop() removes rows based on “labels”, rather than numeric indexing. 
+
+# Delete the rows with labels 0,1,5
+data = data.drop([0,1,5], axis=0)
+
+
+
+# Delete the rows with label "Ireland"
+# For label-based deletion, set the index first on the dataframe:
+data = data.set_index("Area")
+data = data.drop("Ireland", axis=0). # Delete all rows with label "Ireland"
+
+To delete rows based on their numeric position / index, use iloc to reassign the dataframe values, as in the examples below.
+
+# Delete the first five rows using iloc selector
+data = data.iloc[5:,]
+
+
+# Delete by condition
+
+con=data[data.cyl==8]
+data.drop(con.index)
+
+**Renaming columns**
+Column renames are achieved easily in Pandas using the DataFrame rename function. 
+The rename function is easy to use, and quite flexible. Rename columns in these two ways:
+
+Rename by mapping old names to new names using a dictionary, with form {“old_column_name”: “new_column_name”, …}
+Rename by providing a function to change the column names with. Functions are applied to every column name.
+
+# Rename columns using a dictionary to map values
+# Rename the Area columnn to 'place_name'
+data = data.rename(columns={"Area": "place_name"})
+# Again, the inplace parameter will change the dataframe without assignment
+data.rename(columns={"Area": "place_name"}, inplace=True)
+# Rename multiple columns in one go with a larger dictionary
+data.rename(
+    columns={
+        "Area": "place_name",
+        "Y2001": "year_2001"
+    },
+    inplace=True
+)
+# Rename all columns using a function, e.g. convert all column names to lower case:
+data.rename(columns=str.lower)
+
+
+# Quickly lowercase and camelcase all column names in a DataFrame
+data = pd.read_csv("/path/to/csv/file.csv")
+data.rename(columns=lambda x: x.lower().replace(' ', '_'))
+
+#Adding a new column
+data.loc[data.mpg>20,'efficient']=1
+data.loc[data.mpg<=20,'efficient']=0
+data.efficient=data.efficient.astype(int)
+
+or
+
+def meff(k):
+    if k > 20:
+        return 1
+    else:
+        return 0
+
+data["eficient"]=data["mpg"].apply(meff)
+
+
+
+
+
+** Datatype operation **
+the use of df['Date of Publication'].str. This attribute is a way to access speedy string operations in Pandas that largely mimic operations on native Python strings or compiled regular expressions, 
+such as .split(), .replace(), and .capitalize().
+
+++to_numeric
+# convert column "a" of a DataFrame
+df["a"] = pd.to_numeric(df["a"])
+
+# convert all columns of DataFrame
+df = df.apply(pd.to_numeric)
+
+# convert just columns "a" and "b"
+df[["a", "b"]] = df[["a", "b"]].apply(pd.to_numeric)
+
+The default behaviour is to raise error if it can't convert a value.
+
+df['Date of Publication'] = pd.to_numeric(df['Date of Publication'])
+ValueError: Unable to parse string
+
+Rather than fail, we might want it to be considered a missing/bad numeric value. 
+We can coerce invalid values to NaN as follows:
+
+df['Date of Publication'] = pd.to_numeric(df['Date of Publication'],errors='coerce')
+
+The third option for errors is just to ignore the operation if an invalid value is encountered:
+pd.to_numeric(s, errors='ignore')
+# the original Series is returned untouched
+This last option is particularly useful when you want to convert your entire DataFrame, 
+but don't not know which of our columns can be converted reliably to a numeric type. In that case just write:
+
+df.apply(pd.to_numeric, errors='ignore')
+
+
+The function will be applied to each column of the DataFrame. Columns that can be converted to a numeric type will be converted, 
+while columns that cannot (e.g. they contain non-digit strings or dates) will be left alone.
+
+** Downcasting
+By default, conversion with to_numeric() will give you either a int64 or float64 dtype (or whatever integer width is native to your platform).
+
+That's usually what you want, but what if you wanted to save some memory and use a more compact dtype, like float32, or int8?
+
+to_numeric() gives you the option to downcast to either 'integer', 'signed', 'unsigned', 'float'. Here's an example for a simple series s of integer type:
+
+>>> s = pd.Series([1, 2, -7])
+>>> s
+0    1
+1    2
+2   -7
+dtype: int64
+Downcasting to 'integer' uses the smallest possible integer that can hold the values:
+
+>>> pd.to_numeric(s, downcast='integer')
+0    1
+1    2
+2   -7
+dtype: int8
+Downcasting to 'float' similarly picks a smaller than normal floating type:
+
+>>> pd.to_numeric(s, downcast='float')
+0    1.0
+1    2.0
+2   -7.0
+dtype: float32
+
+**astype
+
+The astype() method enables you to be explicit about the dtype you want your DataFrame or Series to have. 
+It's very versatile in that you can try and go from one type to the any other.
+
+Just pick a type: you can use a NumPy dtype (e.g. np.int16), some Python types (e.g. bool), or pandas-specific types (like the categorical dtype).
+
+Call the method on the object you want to convert and astype() will try and convert it for you:
+
+# convert all DataFrame columns to the int64 dtype
+df = df.astype(int)
+
+# convert column "a" to int64 dtype and "b" to complex type
+df = df.astype({"a": int, "b": complex})
+
+Notice I said "try" - if astype does not know how to convert a value in the Series or DataFrame, it will raise an error. 
+For example if you have a NaN or inf value you'll get an error trying to convert it to an integer.
+
+As of pandas 0.20.0, this error can be suppressed by passing errors='ignore'. Your original object will be return untouched.
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+astype() is powerful, but it will sometimes convert values "incorrectly". For example:
+
+>>> s = pd.Series([1, 2, -7])
+>>> s
+0    1
+1    2
+2   -7
+dtype: int64
+These are very small integers, so how about convert to an unsigned 8-bit type?
+
+>>> s.astype(np.uint8)
+0      1
+1      2
+2    249
+dtype: uint8
+The conversion worked, but the -7 was wrapped round to become 249 (i.e. 28 - 7)!
+
+Trying to downcast using pd.to_numeric(s, downcast='unsigned') instead could help prevent this error.
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+astype,to_numeric,to_bool,to_str
+
+
+** Cleaning dataframe **
+
+To clean the Place of Publication field, we can combine Pandas str methods with NumPy’s np.where function, 
+which is basically a vectorized form of Excel’s IF() macro. 
+
+It has the following syntax:
+
+np.where(condition1, x1, 
+        np.where(condition2, x2, 
+            np.where(condition3, x3, ...)))
+			
+pub = df['Place of Publication']
+london = pub.str.contains('London')
+oxford = pub.str.contains('Oxford')
+
+ The  london & oxford is for removing any character around london or oxford
+
+df['Place of Publication'] = np.where(london, 'London',np.where(oxford,'Oxford',pub.str.replace('-',' ')))
+ 
+It is like :- if Place of Publication contains london ; then Place of Publication=London 
+               else if Place of Publication contains oxford; then Place of Publication=Oxford
+			    else pub.str.replace('-',' ')
+				
+
+				
+				
+				
++++++++++++++++++++++++++++++++++++++++
+ Dataframe from text file
++++++++++++++++++++++++++++++++++++++++
+
+university_town=[]
+with open(r'C:\Users\Sourav\Documents\python\Data\university_towns.txt') as fH:
+    for line in fH:
+        if  '[edit]' in line:
+            state=line
+        else:
+            university_town.append((state,line))
+        
+towns_df = pd.DataFrame(university_town,columns=['State', 'RegionName'])
+towns_df
+
+
+we could also use applymap() to clean the dataframe 
+we will use applymap() to map a Python callable to each element of the DataFrame.
+element is here every value in dataframe
+
+def get_citystate(item):
+    if ' (' in item:
+        return item[:item.find(' (')]
+    elif '[' in item:
+        return item[:item.find('[')]
+    else:
+        return item
+		
+This function will print string from beginning till the first "(" or "["	
+		
+towns_df =  towns_df.applymap(get_citystate)
+
+
+** Deal with missing data **
+
+df["Edition Statement"] = df["Edition Statement"].fillna("")
+
+This replaces the NaN entries in the "Edition Statement" column with the empty string, 
+but we could just as easily tell it to replace with a default name such as “None Given”
+
+With numerical data we can put 0 or avg or mean value
+
+rows_with_dashes = df["Place of Publication"].str.contains("-").fillna(False)
+
+len(requests[rows_with_dashes])
+
+fillna for multiple column
+
+df = df.fillna({"a":10,"b":"N/A"})
+
+Forward fill
+df = df.fillna(method="ffill")
+df = df.fillna(method="bfill")
+
+
+
+Marking the column value with - to NaN
+
+df = pd.read_csv("C:\Users\Sourav\Documents\python\Data\BL-Flickr-Images-Book.csv")
+rows_with_dashes=df["Place of Publication"].str.contains("-").fillna(False)
+df.loc[rows_with_dashes,'Place of Publication'] = np.nan
+df
+
+++++++Remove incomplete rows
+
+Dropping all rows with any NA values:
+df.dropna()
+
+Drop all rows that have all NA values:
+df.dropna(how='all')
+
+We can also put a limitation on how many non-null values need to be in a row in order to keep it 
+(in this example, the data needs to have at least 5 non-null values):
+df.dropna(thresh=5)
+
+Let’s say for instance that we don’t want to include any row that doesn’t have information on Edition Statement:
+
+df.dropna(subset=['Edition Statement'])
+
+You can also pass it a list of column names here.
+
+Drop Completely Empty Columns
+df.dropna(axis=1, how='all')
+
+
+Lets replace the cells without any data  column with the value ‘None’ using this line
+df = pd.read_csv("C:\Users\Sourav\Documents\python\Data\BL-Flickr-Images-Book.csv")
+df=df.astype(object)
+df.where(pd.notnull(df),None)
+
+.where will print which satisfy the first condition and None for which rows doesn't satisfy
+
+++++++
+
+Displaying Only Duplicates in the Dataframe
+df.duplicated()
+
+
+Displaying Dataset without Duplicates
+df.drop_duplicates()
+
+
+Drop Rows with Duplicate Names, Keeping the Last Observation
+df.drop_duplicates(['Names'], keep='last')
+data.drop_duplicates(['hp','wt','drat'])
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ JOINING
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+In opeartor
+user_usage["use_id"].isin(user_device["use_id"]).value_counts()
+
+Inner Merge / Inner join
+result=pd.merge(user_usage,user_device[["device","platform","use_id"]],on="use_id")
+result.head(10)
+
+Left Merge / Left outer join
+result = pd.merge(user_usage,
+                 user_device[['use_id', 'platform', 'device']],
+                 on='use_id', 
+                 how='left')
+
+Right Merge / Right outer join
+result = pd.merge(user_usage,
+                 user_device[['use_id', 'platform', 'device']],
+                 on='use_id', 
+                 how='right')
+
+Outer Merge / Full outer join
+
+result = pd.merge(user_usage,
+                 user_device[['use_id', 'platform', 'device']],
+                 on='use_id', 
+                 how='outer')
+				 
+				 
+When names of the mapping coumn is not same
+we need to use left_on and right_on
+
+result = pd.merge(user_usage,
+                 user_device[['use_id', 'platform', 'device']],
+				 left_on='use_id',
+				 right_on='use_id',
+                 on='use_id')
+
+++++++++++++++++++++++++++++++++++++++++++++++++====
+Sorting
+++++++++++++++++++++++++++++++++++++++++++++++++====
+df1 = df.sort_values('use_id')
+Default sorting in ascending
+
+df1 = df.sort_values('use_id',ascending=False)
+
+Sort Pandas Dataframe based on a column and put missing values first
+df1 = df.sort_values('use_id',na_position='first')
+
+Inplace sorting
+df.sort_values('use_id',inplace=True)
+
+Sort Pandas Dataframe Based on the Values of Multiple Columns
+df1 = df.sort_values(['use_id','platform'])
+
+Sort by index
+df.sort_index(inplace=True)
+
+f.sort_values(["c1","c2"], ascending=[False, True])
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+https://www.youtube.com/watch?v=iYie42M1ZyU
+melt
+df.isnull().any()
+df.isnull().sum()

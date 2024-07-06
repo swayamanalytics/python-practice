@@ -1,0 +1,83 @@
+++++++++++++++++++ Linear Search ++++++++++++++++++++++
+def linearsearc(lis,tosearc):
+    pos=0
+    found=False
+    count=0
+    while True:
+        print("loop")
+        count=count+1
+        if pos<len(lis):
+            if tosearc == lis[pos]:
+                print("Found"+str(count))
+                break
+
+        else:
+            lis.append(tosearc)
+            print(lis)
+            break
+        pos=pos+1
+if __name__ == '__main__':
+    li=[1,3,5,6]
+    linearsearc(li,7)
+	
++++++++++++++++++++ Biary Search ++++++++++++++++++++++
+
+def biarysearch(lis,tosearc):
+    found=False
+    head=0
+    tail=len(lis)-1
+    while not found and head<=tail:
+        mid = (head+tail) // 2
+        if tosearc == lis[tail]:
+            found=True
+        else:
+            if tosearc < lis[mid]:
+                tail=mid-1
+            else:
+                head=mid+1
+    print(found)
+
+
+if __name__ == '__main__':
+    li=[1,3,5,6]
+    biarysearch(li,1)
+	
+	
++++++++++++++# Search the longest alphabetical substring. +++++++++++
+s = 'azcbobobegghakl'
+ss=''
+leg=0
+for i in range(0,len(s)-1):
+    key=s[i]
+    ma=s[i]
+    for j in range(i+1,len(s)):
+        if s[j]>=key:
+            ma=ma+s[j]
+            key=s[j]
+        else:
+            if len(ma)>leg:
+                ss=ma
+                leg=len(ma)
+            break
+
+print(ss)
+
+++++++++++++# Permutation +++++++++++++++++++++++++++++++++++++++++++++
+
+
+permute([1, 2, 3])
+ inputData=[1, 2, 3] outputSoFar=[] outputSizeToReach=3
+   1 outputSoFar=[1]
+   permute([1, 2, 3], outputSoFar)
+     inputData=[1, 2, 3] outputSoFar=[1] outputSizeToReach=3
+	 
+def permute(inputData, outputSoFar=[]):
+    outputSizeToReach = len(inputData)
+    for elem in inputData:
+        if elem not in outputSoFar:
+            outputSoFar.append(elem)
+            if len(outputSoFar) == outputSizeToReach:
+                print outputSoFar
+            else:
+                permute(inputData, outputSoFar)  # --- Recursion
+            outputSoFar.pop()

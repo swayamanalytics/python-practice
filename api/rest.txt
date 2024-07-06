@@ -1,0 +1,31 @@
+Developed Python based API (RESTful Web Service) to track sales and perform sales analysis using Flask, SQLAlchemy and PostgreSQL.
+Developed and designed an API (RESTful Web Service) for the company’s website.
+Developed and designed e-mail marketing campaigns using HTML and CSS.
+Maintained customers relationship management databases (MySQL / PostgreSQL)
+Developed server based web traffic statistical analysis tool using Flask, Pandas.
+Managed companies virtual servers at Amazon EC2, S3
+Implemented discretization and binning, data wrangling: cleaning, transforming, merging and reshaping data frames
+Determined optimal business logic implementations, applying best design patterns
+
+Introduction to APIs
+Introductions to APIs
+Historical evolution of APIs
+Exploring modern APIs using simple command-line tools.
+HTTP and RESTfulness
+Introduction to fundamental principles of HTTP
+Introduction to REST
+Designing APIs
+Thinking about resources
+Resource Representation
+Being Stateless
+Designing URLs
+Examples and exercises
+Implementation
+Practical tips and tricks in implementing APIs
+Examples and exercises
+Authentication and Secutity
+Introduction to authentication patterns
+Study of Basic Auth, OAuth, access keys and JWT
+End-to-end encryption using HTTPS
+Documenting APIs
+Discussion of various tools commonly used for documenting RESTful APIs

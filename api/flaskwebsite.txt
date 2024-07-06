@@ -1,0 +1,10 @@
+#Using flask bootstrap
+pip install flask-bootstrap
+
+#See flask_bootstrap tutorial in web https://pythonhosted.org/Flask-Bootstrap/basic-usage.html
+# http://getbootstrap.com/docs/4.1/getting-started/introduction/
+#Google hosted libraries:-  https://developers.google.com/speed/libraries/
+
+
+#Without using bootstrap module
+

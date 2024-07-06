@@ -1,0 +1,202 @@
+Python reference
+++++++++++++++
+Exit
++++++
+sys.exc_info()
+
+Sleeping
++++++++++
+import time
+time.sleep()
+
+StopIteration
+++++++++++++
+Exception
+
+json
++++++++++
+If you want to save lines of code and leave the most flexible solution, we can deserialize the json string to a dynamic object:
+
+p = lambda:None
+p.__dict__ = json.loads('{"action": "print", "method": "onData", "data": "Madan Mohan"}')
+
+>>>> p.action 
+output: u'print' 
+
+>>>> p.method
+output: u'onData'
+
+Exception
+++++++++++
+Declare __repr__ for your class , it will be used as exception msg 
+
++++++++++++++++++++++++++++++
+http://pythongather.blogspot.in/2017/09/company-wise-python-interview-questions.html
+https://www.codementor.io/satwikkansal/some-tricky-python-snippets-that-may-bite-you-off-bhndh45zp
++++++++++++++++++++++++++++++
+python switch case
+
+def f(x):
+    return {
+        'a': lambda x: x * 5,
+        'b': lambda x: x + 7,
+        'c': lambda x: x - 2
+    }.get(x, 9)    # 9 is default if x not found
+
+
+++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++
+1) How list stored in memory
+2) What is key in a dict( can we use a object, list , touple as key in dict)
+TypeError: unhashable type: 'list'
+
+to became key of a dictionary an object to be hashable: __hash__().
+
+The shortest implementation of your own hashable type is this:
+
+class A(object):
+    pass
+Now you can use instances of A as dictionary keys:
+
+d = {}
+a = A()
+b = A()
+d[a] = 7
+d[b] = 8
+This is because user-defined classes are hashable by default, and their hash value is their id -- so they will only compare equal if they are the same object.
+Note that instances of A are by no means immutable, and they can be used as dictionary keys nevertheless.
+The statement that dictionary keys must be immutable only holds for the built-in types.
+-------------------------
+>>> hash(3)
+3
+>>> hash([3,5,44])
+Traceback (most recent call last):
+  File "<pyshell#78>", line 1, in <module>
+    hash([3,5,44])
+TypeError: unhashable type: 'list'
+>>> hash((3,5,44]))
+SyntaxError: invalid syntax
+>>> hash((3,5,44))
+5050910844817109595
+
+++++++++++++++++++++++++++
+
+3)a=[1,2,3]
+a[10:]??
+4)Reference variable and actual variable in python
+5)Monthly patching
+6)How to connect to mysql db in python
+7)try except and final
+8)namespace and how many namespace
+9)How to access a global variable and update
+10)How list stored in memory in python
+11)Memory management in python
+12)How to run unittest for only for a single function
+13)what is the condition for function name and class name in unit test
+14)Mutiple inheritance and multievel inheritance
+15)diamond problem how to solve
+16)how to add a list of variable
+17)Difference between ref copy and swallow copy
+18)Difference between static method and class method
+19)Different between iterator and generator
+20)How to write your own iterator and generator
+
+
+converting a list of digits to a number:-
+>>> x=[3,4,5,6,7]
+>>> int(''.join(map(str,x)))
+34567
+
+
++++++++++++++++++++++++
+Repeat digit 
+say a is 9
+n1 = int( "%s" % a )  #9
+n2 = int( "%s%s" % (a,a) ) #99
+n3 = int( "%s%s%s" % (a,a,a) ) #999
+n4 = int( "%s%s%s%s" % (a,a,a,a) )
+++++++++++++
+>>> functools.reduce(lambda x,y: x+y[1] if y[0]=='D'  else x+(-1*y[1]),trx,0)
+500
+
++++++++++++++++
+
+>>> ss=[('Tom',19,80),('John',20,90),('Jony',17,91),('Jony',17,93),('Json',21,85)]
+>>> from operator import itemgetter, attrgetter
+>>> sorted(ss,key=itemgetter(0,1,2))
+[('John', 20, 90), ('Jony', 17, 91), ('Jony', 17, 93), ('Json', 21, 85), ('Tom', 19, 80)]
+
+++++++++++++++
+>>> class person:
+	name="Person"
+	def __init__(self,name=None):
+		self.name=name
+
+>>> jeffery=person("Jeffery")
+>>> person.name
+'Person'
+>>> jeffery.name
+'Jeffery'
+
+>>> nico=person()
+>>> nico.name
+>>> person.name
+'Person'
+
+++++++++++
+
+Use timeit() function to measure the running time.
+
+++++++++++
+There are 5 cases for using the underscore in Python.
+For storing the value of last expression in interpreter.
+For ignoring the specific values. (so-called “I don’t care”)
+To give special meanings and functions to name of vartiables or functions.
+To use as ‘Internationalization(i18n)’ or ‘Localization(l10n)’ functions.
+To separate the digits of number literal value.
+
+++++++++++
+
+Default value in function
+>>> x = 42
+>>> def spam(a, b=x):
+... print(a, b)
+...
+>>> spam(1)
+1 42
+>>> x = 23 # Has no effect
+>>> spam(1)
+1 42
+>>>
+
++++++++++++++++++++++
+Flatten  a list 
+
+a=
+
+++++++++++++++++++++
+flake8 :- for linting
+
+++++++++++++++++++++++++
+To access the first item in the list after filterring, if list is empty it will return None as default value 
+ item = next(list(filter(lambda x: x['name'] == name, items)), None)
+
++++++++++++++++++++++++
+
+reading 4 lines from a file in chunk
+
+def read_lines(file):
+    with open(file,'r') as e:
+        while True:
+            lines=[]
+            for i in range(4):
+                try:
+                    lines.append(e.__next__())
+                except StopIteration:
+                    return
+
+            for i in lines:
+                print(i.rstrip())
+            print("---END---")
+
+read_lines('emp.txt')

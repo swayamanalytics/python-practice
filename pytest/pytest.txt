@@ -1,0 +1,177 @@
+A simple testing
+*****************
+*****************
+>> Test files should be named test_<something>.py or <something>_test.py.
+>> Test methods and functions should be named test_<something>.
+>> Test classes should be named Test<Something>.
+
+Defining:-
+********
+
+def test_passing():
+    assert (1,2,3) == (1,2,3)
+	
+
+Running:- 	
+*******
+To run pytest, you have the option to specify files and directories. If you don’t specify any files
+or directories, pytest will look for tests in the current working directory and subdirectories. It
+looks for files starting with test_ or ending with _test.
+
+
+pytest pytestingPr.py::test_passing
+
+============================= test session starts =============================
+platform win32 -- Python 3.5.3, pytest-3.2.1, py-1.4.34, pluggy-0.4.0
+rootdir: C:\Users\Sourav\PycharmProjects\DBProject, inifile:
+plugins: mock-1.10.0
+collected 1 item
+
+pytestingPr.py .
+
+========================== 1 passed in 0.03 seconds ===========================
+
+The dot after pytestingPr.py means that one test was run and it passed
+Failures, errors, skips, xfails, and xpasses are denoted with F, E, s, x, and X, respectively.
+
+And More:- 
+********
+If you need more information, you can use -v or --verbose:
+
+
+C:\Users	\PycharmProjects\DBProject>pytest -v pytestingPr.py::test_passing
+============================= test session starts =============================
+platform win32 -- Python 3.5.3, pytest-3.2.1, py-1.4.34, pluggy-0.4.0 -- C:\Users\Sourav\AppData\Local\Programs\Python\Python35\python.exe
+cachedir: .cache
+rootdir: C:\Users\Sourav\PycharmProjects\DBProject, inifile:
+plugins: mock-1.10.0
+collected 1 item
+
+pytestingPr.py::test_passing PASSED
+
+========================== 1 passed in 0.02 seconds ===========================
+
+
+A failed Test:-
+*************
+C:\Users\Sourav\PycharmProjects\DBProject>pytest pytestingPr.py::test_passing
+============================= test session starts =============================
+platform win32 -- Python 3.5.3, pytest-3.2.1, py-1.4.34, pluggy-0.4.0
+rootdir: C:\Users\Sourav\PycharmProjects\DBProject, inifile:
+plugins: mock-1.10.0
+collected 1 item
+
+pytestingPr.py F
+
+================================== FAILURES ===================================
+________________________________ test_passing _________________________________
+
+    def test_passing():
+>       assert (1,2,3) == (1,1,3)
+E       assert (1, 2, 3) == (1, 1, 3)
+E         At index 1 diff: 2 != 1
+E         Use -v to get the full diff
+
+pytestingPr.py:2: AssertionError
+========================== 1 failed in 0.06 seconds ===========================
+
+
+
+C:\Users\Sourav\PycharmProjects\DBProject>pytest -v pytestingPr.py::test_passing
+============================= test session starts =============================
+platform win32 -- Python 3.5.3, pytest-3.2.1, py-1.4.34, pluggy-0.4.0 -- C:\Users\Sourav\AppData\Local\Programs\Python\Python35\python.exe
+cachedir: .cache
+rootdir: C:\Users\Sourav\PycharmProjects\DBProject, inifile:
+plugins: mock-1.10.0
+collected 1 item
+
+pytestingPr.py::test_passing FAILED
+
+================================== FAILURES ===================================
+________________________________ test_passing _________________________________
+
+    def test_passing():
+>       assert (1,2,3) == (1,1,3)
+E       assert (1, 2, 3) == (1, 1, 3)
+E         At index 1 diff: 2 != 1
+E         Full diff:
+E         - (1, 2, 3)
+E         ?     ^
+E         + (1, 1, 3)
+E         ?     ^
+
+pytestingPr.py:2: AssertionError
+========================== 1 failed in 0.08 seconds ===========================
+
+
+
+pytest adds little carets (^) to show us exactly what’s different.	
+
+
+O.P.T.I.ON
+
+-k EXPRESSION only run tests/classes which match the given substring expression.
+
+Example: 
+-k 'test_method or test_other' matches all test functions and classes whose name
+    contains 'test_method' or 'test_other'.
+
+
+	
+-m MARKEXPR only run tests matching given mark expression.
+  
+   example: 
+   
+    import pytest
+
+	def test_passing():
+		assert (1,2,3) == (1,1,3)
+
+	@pytest.mark.runthis
+	def test_passing1():
+		assert "hello" == "hello"   
+	   
+	
+	C:\Users\Sourav\PycharmProjects\DBProject>pytest -m runthis pytestingPr.py
+	============================= test session starts =============================
+	platform win32 -- Python 3.5.3, pytest-3.2.1, py-1.4.34, pluggy-0.4.0
+	rootdir: C:\Users\Sourav\PycharmProjects\DBProject, inifile:
+	plugins: mock-1.10.0
+	collected 2 items
+
+	pytestingPr.py .
+
+	============================= 1 tests deselected ==============================
+	=================== 1 passed, 1 deselected in 0.03 seconds ====================
+   
+   This ran only runthis mark.
+   You can also use it like -m 'mark1 and not mark2'.
+   
+--collect-only option shows you which tests will be run with the given options and configuration.  
+
+	C:\Users\Sourav\PycharmProjects\DBProject>pytest pytestingPr.py::test_passing --collect-only
+	============================= test session starts =============================
+	platform win32 -- Python 3.5.3, pytest-3.2.1, py-1.4.34, pluggy-0.4.0
+	rootdir: C:\Users\Sourav\PycharmProjects\DBProject, inifile:
+	plugins: mock-1.10.0
+	collected 1 item
+	<Module 'pytestingPr.py'>
+	  <Function 'test_passing'>
+
+	======================== no tests ran in 0.02 seconds =========================
+	
+	
+	
+Expecting Exceptions
+********************
+********************
+def test_add_raises():
+"""add() should raise an exception with wrong type param."""
+	with pytest.raises(TypeError):
+	   tasks.add(task= 'not a Task object' )
+	   
+	   
+with pytest.raises(ValueError) as excinfo:
+	tasks.start_tasks_db( 'some/great/path' , 'mysql' )
+	exception_msg = excinfo.value.args[0]
+	assert exception_msg == "db_type must be a 'tiny' or 'mongo'"

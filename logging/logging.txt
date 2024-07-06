@@ -1,0 +1,248 @@
+Basic Logging
++++++++++++++++
+import logging
+logging.debug("Hello")
+
+Comments :- No output
+Reason:- No logger mentioned so default logger will be considered.
+         and default logger level will be considered which is warning,so it will not print any log which 
+		 has lesser log (debug)
+
+
++++++++++++++++++++++++++++++++++++++++++
+import logging
+logging.warning("Hello")
+
+Comments :- O/P
+       WARNING:root:Hello
+       DebugLevel:Loggername:Msg
+	   
+Reason:- No logger mentioned so default logger will be considered.
+         and default logger level will be considered which is warning
+		 Here level is warning so o/p will be printed
+		 It will be printed to stdout because by default logging handle(which emits the log event)
+		 sends to standard output
+		 
+
++++++++++++++++++++++++++++++++++++++++++
+
+import logging
+logging.basicConfig(level=logging.DEBUG)
+logging.debug("Hello debug")
+logging.info("Hello info")
+logging.warning("Hello warning")
+logging.error("Hello error")
+logging.critical("Hello critical")
+
+
+Comments :- O/P
+       DEBUG:root:Hello debug
+	   INFO:root:Hello info
+       WARNING:root:Hello warning
+       ERROR:root:Hello error
+       CRITICAL:root:Hello critical
+	   
+Reason:- No logger mentioned so default logger will be considered.
+         The default log level of root logger is override by using basicConfig to debug
+		 As debug is lowest level so it will print all level output
+
+++++++++++++++++++++++++++++++++++++++++++
+
+import logging
+logging.basicConfig(level=logging.DEBUG,format='%(asctime)s-%(name)s-%(levelname)s-%(message)s')
+logging.debug("Hello debug")
+
+Comments :- O/P
+2018-03-04 22:30:35,185-root-DEBUG-Hello debug
+
+Reason:- No logger mentioned so default logger will be considered.
+         The default log format of root is "DebugLevel:Loggername:Msg"
+		 Which is override by basicConfig 
+		 
+
++++++++++++++++++++++++++++++++++++++++++++
+import logging
+logging.basicConfig(level=logging.DEBUG,format='%(asctime)s-%(name)s-%(levelname)s-%(message)s',filename="App.log")
+logging.debug("Hello debug")
+
+Comments :- O/P in file App.log
+2018-03-04 22:30:35,185-root-DEBUG-Hello debug
+
+Reason:- No logger mentioned so default logger root will be considered.
+         The default log format of root is "DebugLevel:Loggername:Msg"
+		 Which is override by basicConfig.Default handler is stdout, overide to file 
+		 
+
++++++++++++++++++++++++++++++++++++++++++++
+import logging
+
+logger=logging.getLogger(__name__)
+logger.debug("This is 1st customerized log")
+
+Comments :- No O/P
+Reason:- A custmerized logger is defined but it's loglevel  and handle is not.
+         So it did not give any o/p
+
++++++++++++++++++++++++++++++++++++++++++++
+
+import logging
+logging.basicConfig(level=logging.DEBUG,format='%(asctime)s-%(name)s-%(levelname)s-%(message)s')
+logger=logging.getLogger(__name__)
+logger.debug("This is 1st customerized log")
+
+Comments:- O/P
+
+2018-03-04 22:35:50,374-__main__-DEBUG-This is 1st customerized log
+
+Reason:- A custmerized logger is defined but it's loglevel  and handle is not.
+         We have also root logger is used so custmerized log uses root logger format, handler,and log level
+		 
+		 
+++++++++++++++++++++++++++++++++++++++++++++++
+
+import logging
+logging.basicConfig(level=logging.DEBUG,format='%(asctime)s-%(name)s-%(levelname)s-%(message)s')
+logger=logging.getLogger(__name__)
+logger.setLevel(logging.WARNING)
+logger.debug("This is 1st customerized log")
+
+
+No o/p as custmerized logger level is WARNING but trying to log debug message using the logger
+
+++++++++++++++++++++++++++++++++++++++++++++++
+
+import logging
+logging.basicConfig(level=logging.WARNING,format='%(asctime)s-%(name)s-%(levelname)s-%(message)s')
+logger=logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+logger.debug("This is 1st customerized log")
+
+o/p
+
+2018-03-04 22:40:30,408-__main__-DEBUG-This is 1st customerized log
+
+
+As custmerized logger overide the log level of root logger but still it uses log format and handler of root
+
++++++++++++++++++++++++++++++++++++++++++++++++
+
+import logging
+logger=logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+FLhandler=logging.FileHandler('App.log')
+logger.addHandler(FLhandler)
+logger.debug("This is 1st customerized log as debug")
+
+
+O/p:- In App.log
+This is 1st customerized log as debug
+
+Reason:- By default the handle is stream , here for customerized log we mentioned the handler to file
+         custmerized logger has level debug so all log level will go to file
+		 
++++++++++++++++++++++++++++++++++++++++++++++++
+
+import logging
+logger=logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+FLhandler=logging.FileHandler('App.log')
+FLhandler.setLevel(logging.WARNING)
+logger.addHandler(FLhandler)
+logger.debug("This is 1st customerized log as debug")
+
+O/P :- Nothing
+
+Reason:- As the log level of handler is overriden by logger
+
+So following way it happens
+Level checked in logger  level if passed then level checked in handler logger level if passed then print or wrote
+If it level failed in any of two it will not proceed
+
+If you have not mentioned log level for logger but  set it for handler , the default level for logger will be warning
+If you have  mentioned log level for logger but not set it for handler , the default level for logger and handle will be same
+
++++++++++++++++++++++++++++++++++++++++++++++++++++
+operation.py
+===========
+import logging
+logging.basicConfig(level=logging.INFO,format='%(asctime)s-%(name)s-%(levelname)s-%(message)s',filename='App.log')
+def add(a,b):
+    logging.info("Adding a and b")
+    return a+b
+LogTest.py
+===========
+import logging
+import operation
+logging.basicConfig(level=logging.DEBUG,format='%(asctime)s-%(name)s-%(levelname)s-%(message)s',filename='App.log')
+logging.debug("This is 1st customerized log as debug")
+operation.add(5,6)
+
+o/p:- In app.log
+2018-03-04 23:56:43,202-root-INFO-Adding a and b
+
+
+Reason:- Root logger is defined twice but it's effected the value only when it declare first time.
+         So root config defined in operation.py will be get effected as it is called in import sttement
+		 In operation.py the logger level was info so it's lower level won't be printed 
+		 	 
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+operation.py
+===========
+import logging
+loger=logging.getLogger(__name__)
+def add(a,b):
+    loger.debug("Adding a and b")
+    return a+b
+
+LogTest.py
+===========
+import logging
+import operation
+logging.basicConfig(level=logging.DEBUG,format='%(asctime)s-%(name)s-%(levelname)s-%(message)s',filename='App.log')
+logging.debug("This is 1st customerized log as debug")
+operation.add(5,6)
+
+O/P:- In App.log
+
+2018-03-04 23:52:58,776-root-DEBUG-This is 1st customerized log as debug
+2018-03-04 23:52:58,776-operation-DEBUG-Adding a and b
+
+
+Reason:- operation.py module doesn't have any logger level and logger handle definded so it used the default property of 
+         root log 
+         
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+operation.py
+===========
+import logging
+logger1=logging.getLogger(__name__)
+Fhhandle=logging.FileHandler('operation.log')
+Fomatter=logging.Formatter('%(asctime)s-%(name)s-%(levelname)s-%(message)s')
+Fhhandle.setFormatter(Fomatter)
+logger1.addHandler(Fhhandle)
+logger1.setLevel(logging.DEBUG)
+def add(a,b):
+    logger1.debug("Adding a and b")
+    return a+b
+
+LogTest.py
+===========
+import logging
+import operation
+logger=logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+FEhandler=logging.FileHandler('App.log')
+Fomatter=logging.Formatter('%(asctime)s-%(name)s-%(levelname)s-%(message)s')
+FEhandler.setFormatter(Fomatter)
+logger.addHandler(FEhandler)
+logger.debug("This is 1st customerized log as debug")
+operation.add(5,6)
+
+
+O/P 
+In app.log
+2018-03-05 00:09:24,716-__main__-DEBUG-This is 1st customerized log as debug
+
+In operation.log
+2018-03-05 00:09:24,716-operation-DEBUG-Adding a and b
